@@ -25,7 +25,7 @@ namespace Core.Classes
         {
             _wordList = text.Split(separators, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.ToLower())
-                .OrderBy(x => x)
+                .OrderBy(x => x)               
                 .ToList();
         }
 
@@ -42,7 +42,10 @@ namespace Core.Classes
                     _sortWords.Add(word, 1);
                 }               
             }
-            return _sortWords.GroupBy(x => x.Key.First()).Select(x => x);
+            return _sortWords
+                .GroupBy(x => x.Key.First())
+                .OrderByDescending(x => _sortWords.Values)
+                .Select(x => x);
         }
     }
 }

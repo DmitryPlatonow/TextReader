@@ -29,7 +29,7 @@ namespace Core.Classes
                     foreach (var item in sortWord)
                     {
                         sw.WriteLine(item.Key.ToString());
-                        foreach (var word in item)
+                        foreach (var word in item.OrderByDescending(w => w.Value))
                         {
                             sw.WriteLine($"{word.Key} --- {word.Value }");
                         }
