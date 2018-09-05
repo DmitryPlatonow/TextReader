@@ -1,4 +1,5 @@
 ﻿using Core.Classes;
+using System;
 
 namespace Demo
 {
@@ -6,16 +7,26 @@ namespace Demo
     {
         static void Main(string[] args)
         {
-            string filePath = "41954-8.txt";
-            string wrirtenFile = "OrderedWords.txt";
+            if (args.Length == 0)
+            {
+                args = new string[] { "41954-8.txt", "OrderedWords.txt" };
+            }           
 
-            TextReader textReader = new TextReader(filePath);
-            TextWriter textWriter = new TextWriter(wrirtenFile);
+            try
+            {
+                TextReader textReader = new TextReader(args[0]);
+                TextWriter textWriter = new TextWriter(args[1]);
 
-            Parser parser = new Parser();
-            parser.TextParser(textReader.Read());
-            textWriter.Write(parser.Sort());
+                Parser parser = new Parser();
+                parser.TextParser(textReader.Read());
+                textWriter.Write(parser.Sort());
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);             
+            }
 
+            //Console.ReadKey();
         }
     }
 }
