@@ -6,12 +6,12 @@ namespace Core.Classes
 {
     public class Parser
     {
-        IList<string> _wordList;
-        IDictionary<string, int> _sortWords;
+        public IList<string> _wordList;
+        private IDictionary<string, int> _sortWords;
 
         string[] separators = { " - ", ",", ".", "!", "?", ";", ":", " ", "\'",
                                 "\"", "\r", "\n", "(", ")", "[", "]", "_",
-                                "--", "/","#", "&", "$", "*", "@", "|", "+"};
+                                "--", "/","#", "&", "$", "*", "@", "|", "+", "{", "}", "^", "%"};
 
         public Parser()
         {
@@ -21,14 +21,19 @@ namespace Core.Classes
 
         public void TextParser(string text)
         {
-            _wordList = text.Split(separators, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => x.ToLower())
-                .Where(x => x != "-")
-                .OrderBy(x => x)                
-                .ToList();
+            if (text != null)
+            {
+                _wordList = text
+                    .Split(separators, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => x.ToLower())
+                    .Where(x => x != "-")
+                    .OrderBy(x => x)
+                    .ToList();
+            }
+
         }
 
-        public IEnumerable<IOrderedEnumerable<KeyValuePair<string, int>>> SortByLiterAndCount()
+        public IEnumerable<IOrderedEnumerable<KeyValuePair<string, int>>> Sort()
         {
             foreach (var word in _wordList)
             {
@@ -41,12 +46,12 @@ namespace Core.Classes
                     _sortWords.Add(word, 1);
                 }
             }
-            return _sortWords                
+            return _sortWords
                 .GroupBy(x => x.Key.First())
                 .OrderBy(x => x.Key)
                 .Select(x => x.OrderByDescending(y => y.Value));
             ;
-                
+
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core;
-using Core.Classes;
+﻿using Core.Classes;
 
 namespace Demo
 {
@@ -20,7 +14,7 @@ namespace Demo
 
             Parser parser = new Parser();
             parser.TextParser(textReader.Read());
-            textWriter.Write(parser.SortByLiterAndCount());
+            textWriter.Write(parser.Sort());
 
         }
     }

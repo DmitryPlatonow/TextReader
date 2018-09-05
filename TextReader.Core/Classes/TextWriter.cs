@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Classes
 {
@@ -28,7 +27,9 @@ namespace Core.Classes
                     foreach (var item in sortWord)
                     {
                         sw.WriteLine(item.First().Key.ToString().First());
+
                         string output;
+
                         foreach (var word in item)
                         {
                             output = String.Format("{0, -20} {1,8}", word.Key, word.Value);
