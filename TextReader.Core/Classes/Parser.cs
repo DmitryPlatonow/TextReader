@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Classes
 {
@@ -11,9 +9,9 @@ namespace Core.Classes
         IList<string> _wordList;
         IDictionary<string, int> _sortWords;
 
-        string[] separators = { ",", ".", "!", "?", ";", ":", " ", "\'",
-            "\"", "\r", "\n", "(", ")", "[", "]", "_", "--", "/",
-            "#", "&", "$", "*", "@", "|", "+" };
+        string[] separators = { " - ", ",", ".", "!", "?", ";", ":", " ", "\'",
+                                "\"", "\r", "\n", "(", ")", "[", "]", "_",
+                                "--", "/","#", "&", "$", "*", "@", "|", "+"};
 
         public Parser()
         {
@@ -25,27 +23,30 @@ namespace Core.Classes
         {
             _wordList = text.Split(separators, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.ToLower())
-                .OrderBy(x => x)               
+                .Where(x => x != "-")
+                .OrderBy(x => x)                
                 .ToList();
         }
 
-        public IEnumerable<IGrouping<char, KeyValuePair<string, int>>> SortByLiterAndCount()
+        public IEnumerable<IOrderedEnumerable<KeyValuePair<string, int>>> SortByLiterAndCount()
         {
             foreach (var word in _wordList)
             {
-                if (_sortWords.ContainsKey(word.ToString()))
+                if (_sortWords.ContainsKey(word))
                 {
-                    _sortWords[word.ToString()] += 1;
+                    _sortWords[word] += 1;
                 }
                 else
                 {
                     _sortWords.Add(word, 1);
-                }               
+                }
             }
-            return _sortWords
+            return _sortWords                
                 .GroupBy(x => x.Key.First())
-                .OrderByDescending(x => _sortWords.Values)
-                .Select(x => x);
+                .OrderBy(x => x.Key)
+                .Select(x => x.OrderByDescending(y => y.Value));
+            ;
+                
         }
     }
 }

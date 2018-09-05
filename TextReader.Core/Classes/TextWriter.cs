@@ -16,11 +16,10 @@ namespace Core.Classes
             _filePath = filePath;
         }
 
-        public void Write(IEnumerable<IGrouping<char, KeyValuePair<string, int>>> sortWord)
+        public void Write(IEnumerable<IOrderedEnumerable<KeyValuePair<string, int>>> sortWord)
 
         {
-            string result;
-
+           
             using (FileStream stream = new FileStream(_filePath, FileMode.OpenOrCreate))
             {
 
@@ -28,15 +27,17 @@ namespace Core.Classes
                 {
                     foreach (var item in sortWord)
                     {
-                        sw.WriteLine(item.Key.ToString());
-                        foreach (var word in item.OrderByDescending(w => w.Value))
+                        sw.WriteLine(item.First().Key.ToString().First());
+                        string output;
+                        foreach (var word in item)
                         {
-                            sw.WriteLine($"{word.Key} --- {word.Value }");
+                            output = String.Format("{0, -20} {1,8}", word.Key, word.Value);
+                            sw.WriteLine(output);
                         }
                     }
                 }
             }
-            
+
         }
     }
 }
