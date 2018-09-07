@@ -19,7 +19,7 @@ namespace Core.Classes
 
         {
            
-            using (FileStream stream = new FileStream(_filePath, FileMode.OpenOrCreate))
+            using (FileStream stream = new FileStream(_filePath, FileMode.CreateNew))
             {
 
                 using (StreamWriter sw = new StreamWriter(stream, Encoding.Default))

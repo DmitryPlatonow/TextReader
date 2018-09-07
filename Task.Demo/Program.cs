@@ -6,27 +6,31 @@ namespace Demo
     class Program
     {
         static void Main(string[] args)
-        {
+        {            
             if (args.Length == 0)
             {
-                args = new string[] { "41954-8.txt", "OrderedWords.txt" };
-            }           
+                args = new string[] { "", "" };
+                Console.WriteLine("Enter the file name to process");
+                args[0] = Console.ReadLine();
+                Console.WriteLine("Enter the output file name");
+                args[1] = Console.ReadLine();
+            }
 
             try
             {
                 TextReader textReader = new TextReader(args[0]);
                 TextWriter textWriter = new TextWriter(args[1]);
 
-                Parser parser = new Parser();
-                parser.TextParser(textReader.Read());
+                TextParser parser = new TextParser();
+                parser.Parse(textReader.Read());
                 textWriter.Write(parser.Sort());
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);             
             }
 
-            //Console.ReadKey();
+            Console.WriteLine("The output file has been saved");
         }
     }
 }

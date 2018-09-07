@@ -17,7 +17,7 @@ namespace Core.Classes.Tests
         [TestMethod()]
         public void TextParserTest()
         {
-            Parser parser = new Parser();
+            TextParser parser = new TextParser();
             parser.TextParser(null);
             Assert.AreEqual(0, parser._wordList.Count);
         }

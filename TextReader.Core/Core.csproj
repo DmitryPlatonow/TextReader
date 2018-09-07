@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Parser.cs" />
+    <Compile Include="Classes\TextParser.cs" />
     <Compile Include="Classes\TextWriter.cs" />
     <Compile Include="Classes\TextReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

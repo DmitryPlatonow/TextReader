@@ -1,32 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Core.Classes
 {
-    public class Parser
+    public class TextParser
     {
-        public IList<string> _wordList;
+        private IList<string> _wordList;
         private IDictionary<string, int> _sortWords;
 
-        string[] separators = { " - ", ",", ".", "!", "?", ";", ":", " ", "\'",
-                                "\"", "\r", "\n", "(", ")", "[", "]", "_",
-                                "--", "/","#", "&", "$", "*", "@", "|", "+", "{", "}", "^", "%"};
+        private string _regPattern = @"[^a-zA-Z-]";
 
-        public Parser()
+        public TextParser()
         {
             _wordList = new List<string>();
             _sortWords = new Dictionary<string, int>();
         }
 
-        public void TextParser(string text)
+        public void Parse(string text)
         {
             if (text != null)
             {
-                _wordList = text
-                    .Split(separators, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(x => x.ToLower())
-                    .Where(x => x != "-")
+                var primitiveText = Regex.Replace(text, _regPattern, " ");
+                _wordList = Regex.Split(primitiveText, @"\s+")
+                    .Where(x =>x != "")
+                    .Select(x=> x.ToLower())
                     .OrderBy(x => x)
                     .ToList();
             }
@@ -46,12 +44,11 @@ namespace Core.Classes
                     _sortWords.Add(word, 1);
                 }
             }
-            return _sortWords
-                .GroupBy(x => x.Key.First())
+            return  _sortWords
+                .GroupBy(x => x.Key.ToString().First())
                 .OrderBy(x => x.Key)
-                .Select(x => x.OrderByDescending(y => y.Value));
-            ;
-
+                .Select(x => x.OrderByDescending(y => y.Value))
+                ;
         }
     }
 }
